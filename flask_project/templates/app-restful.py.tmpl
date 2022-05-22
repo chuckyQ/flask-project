@@ -1,13 +1,32 @@
+import os
+import click
+
 from flask import Flask
 from flask_restful import Api
+from flask_migrate import Migrate
+from flask_project.db import db
 
 from {APP_NAME}.resources import RESOURCES
+from {APP_NAME}.models import models
 
 app = Flask(__name__)
+app.config.update(**os.environ)
+db.init_app(app)
+Migrate(app, db)
 api = Api(app)
 
 for r, prefix in RESOURCES:
     api.add_resource(r, prefix)
+
+
+## Commands
+
+@app.cli.command('runscript')
+@click.argument('script')
+def runscript(script):
+    f = open(script)
+    exec(f.read())
+    f.close()
 
 if __name__ == '__main__':
     app.run()

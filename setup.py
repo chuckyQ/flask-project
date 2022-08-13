@@ -11,9 +11,6 @@ setup(
         'flask_script',
         'flask_migrate',
     ],
-    package_data={
-        'flask_project.templates' : ['*.tmpl'],
-    },
     entry_points={
         'console_scripts' : ['flask-project=flask_project.main:main']
     }
